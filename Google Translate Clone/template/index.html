@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Translate Clone</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Google Translate Clone</h1>
+        <form id="translateForm">
+            <textarea id="text" name="text" placeholder="Enter text to translate"></textarea>
+            <select id="source_lang" name="source_lang">
+                <option value="en">English</option>
+                <option value="es">Spanish</option>
+                <!-- Add more languages as needed -->
+            </select>
+            <select id="target_lang" name="target_lang">
+                <option value="es">Spanish</option>
+                <option value="en">English</option>
+                <!-- Add more languages as needed -->
+            </select>
+            <button type="submit">Translate</button>
+        </form>
+        <div class="result">
+            <h2>Translation:</h2>
+            <p id="translation"></p>
+        </div>
+    </div>
+    <script>
+        document.getElementById('translateForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const form = new FormData(this);
+            const response = await fetch('/translate', {
+                method: 'POST',
+                body: form
+            });
+            const result = await response.json();
+            document.getElementById('translation').textContent = result.translation;
+        });
+    </script>
+</body>
+</html>
